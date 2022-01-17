@@ -5,12 +5,10 @@ import com.adidas.subscriptionservice.dto.SubscriptionDTO;
 import com.adidas.subscriptionservice.service.ISubscriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.math.BigInteger;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,24 +18,24 @@ public class SubscriptionController {
     private ISubscriptionService subscriptionService;
 
     @PostMapping(value = "/subscribe")
-    public ResponseEntity<SubscriptionDTO> createSubscription(
+    public ResponseEntity<?> createSubscription(
             @Valid SubscriptionDTO subscriptionDTO
     ) {
-
-        return ResponseEntity.status(HttpStatus.OK).body(subscriptionDTO);
+        ResponseDTO responseDTO = subscriptionService.createSubscription(subscriptionDTO);
+        return ResponseEntity.status(responseDTO.getResponseCode()).body(subscriptionDTO);
     }
 
-    @PostMapping(value = "/unsubscribe/{id}")
-    public ResponseEntity<String> cancelSubscription(
+    @PatchMapping(value = "/unsubscribe/{id}")
+    public ResponseEntity<?> cancelSubscription(
             @Valid @PathVariable(value = "id", required = true) Integer id
     ) {
-
-        return ResponseEntity.status(HttpStatus.OK).body("ID: " + id);
+        ResponseDTO responseDTO = subscriptionService.cancelSubscription(id);
+        return ResponseEntity.status(responseDTO.getResponseCode()).body(responseDTO.getResponse());
     }
 
     @GetMapping(value = "/subscription/{id}")
     public ResponseEntity<?> getSubscription(
-            @Valid @PathVariable(value = "id", required = true) BigInteger id
+            @Valid @PathVariable(value = "id", required = true) Integer id
     ) {
         ResponseDTO responseDTO = subscriptionService.getSubscription(id);
         return ResponseEntity.status(responseDTO.getResponseCode()).body(responseDTO.getResponse());

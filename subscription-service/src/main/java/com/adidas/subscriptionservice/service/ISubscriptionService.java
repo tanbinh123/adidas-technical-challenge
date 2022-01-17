@@ -4,8 +4,6 @@ import com.adidas.subscriptionservice.dto.ResponseDTO;
 import com.adidas.subscriptionservice.dto.SubscriptionDTO;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
-
 @Service
 public interface ISubscriptionService {
 
@@ -17,12 +15,12 @@ public interface ISubscriptionService {
     /**
      *
      */
-    ResponseDTO cancelSubscription(BigInteger id);
+    ResponseDTO cancelSubscription(Integer id);
 
     /**
      *
      */
-    ResponseDTO getSubscription(BigInteger id);
+    ResponseDTO getSubscription(Integer id);
 
     /**
      *

@@ -17,8 +17,9 @@ public class Subscription implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", unique = true, nullable = false)
-    private BigInteger id;
+    private Integer id;
 
     @Column(name="email", nullable = false, length = 30)
     private String email;

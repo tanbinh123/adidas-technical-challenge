@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -26,15 +26,50 @@ public class SubscriptionServiceImpl implements ISubscriptionService {
 
     public ResponseDTO createSubscription(SubscriptionDTO subscriptionDTO) {
 
-        return null;
+        ResponseDTO responseDTO = new ResponseDTO();
+
+        Subscription subscription = new Subscription();
+        subscription.setEmail(subscriptionDTO.getEmail());
+        subscription.setName(subscriptionDTO.getName());
+        subscription.setGender(subscriptionDTO.getGender());
+        subscription.setBirthdate(new Timestamp(subscriptionDTO.getBirthdate().getTime()));
+        subscription.setConsent(subscriptionDTO.getConsent());
+
+        if (subscriptionRepository.save(subscription) != null) {
+            responseDTO.setResponseCode(HttpStatus.OK);
+            responseDTO.setResponse(subscription.toString());
+        } else {
+            responseDTO.setResponseCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDTO.setResponse("Error");
+        }
+
+        return responseDTO;
     }
 
-    public ResponseDTO cancelSubscription(BigInteger id) {
+    public ResponseDTO cancelSubscription(Integer id) {
 
-        return null;
+        ResponseDTO responseDTO = new ResponseDTO();
+        Subscription subscription = getSubscriptionById(id);
+
+        if (subscription != null) {
+            if (subscription.getConsent()) {
+                subscription.setConsent(false);
+                responseDTO.setResponseCode(HttpStatus.OK);
+                responseDTO.setResponse(subscription.toString());
+                subscriptionRepository.save(subscription);
+            } else {
+                responseDTO.setResponseCode(HttpStatus.OK);
+                responseDTO.setResponse("Already cancelled");
+            }
+        } else {
+            responseDTO.setResponseCode(HttpStatus.NO_CONTENT);
+            responseDTO.setResponse("Invalid subscription ID");
+        }
+
+        return responseDTO;
     }
 
-    public ResponseDTO getSubscription(BigInteger id) {
+    public ResponseDTO getSubscription(Integer id) {
 
         ResponseDTO responseDTO = new ResponseDTO();
         Subscription subscription = getSubscriptionById(id);
@@ -66,7 +101,7 @@ public class SubscriptionServiceImpl implements ISubscriptionService {
         return responseDTO;
     }
 
-    private Subscription getSubscriptionById(BigInteger id) {
+    private Subscription getSubscriptionById(Integer id) {
 
         return subscriptionRepository.findById(id);
     }
