@@ -1,54 +1,39 @@
 package com.adidas.publicservice.controller;
 
 import com.adidas.publicservice.dto.SubscriptionDTO;
+import com.adidas.publicservice.kafka.producer.Sender;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Date;
+
 
 @RestController
 @RequiredArgsConstructor
+@Component
 public class PublicController {
+
+    @Value("${spring.kafka.topic.subscribe}")
+    private String SUBSCRIBE_TOPIC;
+
+    private Sender sender;
+
+    @Autowired
+    PublicController(Sender sender) {
+        this.sender = sender;
+    }
 
     @PostMapping(value = "/subscribe")
     public ResponseEntity<SubscriptionDTO> createSubscription(
-            @Valid @RequestParam(name = "email", required = true) String email,
-            @Valid @RequestParam(name = "name", required = false) String name,
-            @Valid @RequestParam(name = "gender", required = false) String gender,
-            @Valid @RequestParam(name = "birthdate", required = true) @DateTimeFormat(pattern="yyyy-MM-dd") Date birthdate,
-            @Valid @RequestParam(name = "consent", required = true) Boolean consent
+            @Valid SubscriptionDTO subscriptionDTO
     ) {
-
-        SubscriptionDTO subscriptionDTO = new SubscriptionDTO(email, name, gender, birthdate, consent);
-
+        sender.send(SUBSCRIBE_TOPIC, subscriptionDTO);
         return ResponseEntity.status(HttpStatus.OK).body(subscriptionDTO);
-    }
-
-    @DeleteMapping(value = "/unsubscribe/{id}")
-    public ResponseEntity<String> deleteSubscription(
-            @Valid @PathVariable(value = "id", required = true) Integer id
-    ) {
-
-        return ResponseEntity.status(HttpStatus.OK).body("ID: " + id);
-    }
-
-    @GetMapping(value = "/subscription/{id}")
-    public ResponseEntity<String> getSubscription(
-            @Valid @PathVariable(value = "id", required = true) Integer id
-    ) {
-
-        return ResponseEntity.status(HttpStatus.OK).body("ID: " + id);
-    }
-
-    @GetMapping(value = "/subscriptions")
-    public ResponseEntity<String> getAllSubscriptions() {
-
-        return ResponseEntity.status(HttpStatus.OK).body("Testing getAllSubscriptions Method");
     }
 
 }
