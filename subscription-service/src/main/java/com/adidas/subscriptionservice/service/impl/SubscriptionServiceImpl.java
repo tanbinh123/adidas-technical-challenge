@@ -3,11 +3,13 @@ package com.adidas.subscriptionservice.service.impl;
 import com.adidas.subscriptionservice.dto.ResponseDTO;
 import com.adidas.subscriptionservice.dto.SubscriptionDTO;
 import com.adidas.subscriptionservice.entity.Subscription;
+import com.adidas.subscriptionservice.kafka.producer.Sender;
 import com.adidas.subscriptionservice.repository.ISubscriptionRepository;
 import com.adidas.subscriptionservice.service.ISubscriptionService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,17 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class SubscriptionServiceImpl implements ISubscriptionService {
+
+
+    @Value("${spring.kafka.topic.sendEmail}")
+    private String SEND_EMAIL_TOPIC;
+
+    private Sender sender;
+
+    @Autowired
+    SubscriptionServiceImpl(Sender sender) {
+        this.sender = sender;
+    }
 
     @Autowired
     private ISubscriptionRepository subscriptionRepository;
@@ -35,9 +48,12 @@ public class SubscriptionServiceImpl implements ISubscriptionService {
         subscription.setBirthdate(new Timestamp(subscriptionDTO.getBirthdate().getTime()));
         subscription.setConsent(subscriptionDTO.getConsent());
 
-        if (subscriptionRepository.save(subscription) != null) {
+        subscriptionDTO.setId(subscriptionRepository.save(subscription).getId());
+
+        if (subscriptionDTO.getId() != null) {
             responseDTO.setResponseCode(HttpStatus.OK);
             responseDTO.setResponse(subscription.toString());
+            sender.send(SEND_EMAIL_TOPIC, subscriptionDTO);
         } else {
             responseDTO.setResponseCode(HttpStatus.INTERNAL_SERVER_ERROR);
             responseDTO.setResponse("Error");
