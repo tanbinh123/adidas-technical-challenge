@@ -1,37 +1,32 @@
 package com.adidas.publicservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
-import java.util.Date;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class SubscriptionDTO {
 
     @NotNull(message = "Email is a mandatory field")
-    @Email
-    @Size(max = 30)
+    @Email(message = "Invalid format, it must be an email")
+    @Size(min=1, max = 30, message = "String size must be between 1 and 30 characters")
     private String email;
 
-    @Size(max = 30)
-    @Pattern(regexp = "[A-Za-z]")
+    @Size(min=1, max=30, message = "String size must be between 1 and 30 characters")
+    @Pattern(regexp = "[A-Za-z]+", message = "Only letters allowed.")
     private String name;
 
-    @Size(max = 6)
-    @Pattern(regexp = "[A-Za-z]")
+    @Size(min=1, max=6, message = "String size must be between 1 and 6 characters")
+    @Pattern(regexp = "[A-Za-z]+", message = "Only letters allowed.")
     private String gender;
 
     @NotNull(message = "Birthdate is a mandatory field")
-    @Past
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date birthdate;
+    @Pattern(regexp = "^([0-2][0-9]||3[0-1])-(0[0-9]||1[0-2])-([0-9][0-9])?[0-9][0-9]$", message = "Date format invalid, it must be dd-mm-yyyy")
+    private String birthdate;
 
     @NotNull(message = "Consent is a mandatory field")
     private Boolean consent;

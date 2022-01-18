@@ -1,39 +1,36 @@
 package com.adidas.publicservice.controller;
 
+import com.adidas.publicservice.dto.ResponseDTO;
 import com.adidas.publicservice.dto.SubscriptionDTO;
-import com.adidas.publicservice.kafka.producer.Sender;
+import com.adidas.publicservice.service.IPublicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-
-@RestController
+@Validated
 @RequiredArgsConstructor
-@Component
+@RestController
 public class PublicController {
 
-    @Value("${spring.kafka.topic.subscribe}")
-    private String SUBSCRIBE_TOPIC;
-
-    private Sender sender;
-
     @Autowired
-    PublicController(Sender sender) {
-        this.sender = sender;
-    }
+    IPublicService publicService;
 
+    /**
+     * Sends subscription data to Kafka server to subscribe the user in Subscription Service.
+     *
+     * @param subscriptionDTO Params received from the UI frontend
+     * @return                Http Response
+     */
     @PostMapping(value = "/subscribe")
-    public ResponseEntity<SubscriptionDTO> createSubscription(
-            @Valid SubscriptionDTO subscriptionDTO
+    public ResponseEntity<?> createSubscription(
+            @Valid @RequestBody SubscriptionDTO subscriptionDTO
     ) {
-        sender.send(SUBSCRIBE_TOPIC, subscriptionDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(subscriptionDTO);
+        ResponseDTO responseDTO = publicService.createSubscription(subscriptionDTO);
+        return ResponseEntity.status(responseDTO.getResponseCode()).body(responseDTO.getResponseMessage());
     }
 
 }
