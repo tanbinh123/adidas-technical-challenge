@@ -1,6 +1,6 @@
 spring:
   application:
-    name: email-service     # This is the name for the remote configuration file
+    name: email-service  # This is the name for the remote configuration file
   cloud:
     config:
       uri: http://localhost:8888  # This is where the config-service is running

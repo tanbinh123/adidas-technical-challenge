@@ -1,4 +1,4 @@
-#Database configuration
+# Database configuration
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver

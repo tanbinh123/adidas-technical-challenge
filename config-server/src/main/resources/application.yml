@@ -10,6 +10,6 @@ spring:
         git:
           uri: https://github.com/csantos92/adidas-technical-challenge-config
 
-  # Spring properties in case you use different profiles
+  # Spring properties for profiles
   profiles:
    active: devv
