@@ -17,15 +17,27 @@ public class SubscriptionController {
     @Autowired
     private ISubscriptionService subscriptionService;
 
+    /**
+     * Save subscription data in database and sends Kafka message to Email Service.
+     *
+     * @param subscriptionDTO Params received from Public Service or secured service
+     * @return                Http Response
+     */
     @PostMapping(value = "/subscribe")
     public ResponseEntity<?> createSubscription(
-            @Valid SubscriptionDTO subscriptionDTO
+            @Valid @RequestBody SubscriptionDTO subscriptionDTO
     ) {
         ResponseDTO responseDTO = subscriptionService.createSubscription(subscriptionDTO);
         return ResponseEntity.status(responseDTO.getResponseCode()).body(subscriptionDTO);
     }
 
-    @PatchMapping(value = "/unsubscribe/{id}")
+    /**
+     * Change Consent property flag to false to cancel subscription
+     *
+     * @param id Subscription ID
+     * @return   Http Response
+     */
+    @PutMapping(value = "/unsubscribe/{id}")
     public ResponseEntity<?> cancelSubscription(
             @Valid @PathVariable(value = "id", required = true) Integer id
     ) {
@@ -33,6 +45,12 @@ public class SubscriptionController {
         return ResponseEntity.status(responseDTO.getResponseCode()).body(responseDTO.getResponse());
     }
 
+    /**
+     * Get subscription data from database by ID
+     *
+     * @param id Subscription ID
+     * @return   Http Response
+     */
     @GetMapping(value = "/subscription/{id}")
     public ResponseEntity<?> getSubscription(
             @Valid @PathVariable(value = "id", required = true) Integer id
@@ -41,6 +59,11 @@ public class SubscriptionController {
         return ResponseEntity.status(responseDTO.getResponseCode()).body(responseDTO.getResponse());
     }
 
+    /**
+     * Get all subscription data from database
+     *
+     * @return   Http Response
+     */
     @GetMapping(value = "/subscriptions")
     public ResponseEntity<?> getSubscriptions() {
         ResponseDTO responseDTO = subscriptionService.getSubscriptions();

@@ -14,8 +14,14 @@ public class Sender {
     @Autowired
     private KafkaTemplate<String, SubscriptionDTO> simpleKafkaTemplate;
 
+    /**
+     * Sends SubscriptionDTO to Kafka server
+     *
+     * @param topic
+     * @param subscriptionDTO
+     */
     public void send(String topic, SubscriptionDTO subscriptionDTO) {
-        LOGGER.info("sending subscriptionDTO='{}' to topic='{}'", subscriptionDTO, topic);
+        LOGGER.info("Sending subscriptionDTO='{}' to topic='{}'", subscriptionDTO, topic);
         simpleKafkaTemplate.send(topic, subscriptionDTO);
     }
 
