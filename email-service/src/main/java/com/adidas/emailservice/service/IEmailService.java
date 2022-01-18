@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 public interface IEmailService {
 
     /**
+     * Method that sends email to the subscriber
      *
-     * @param subscriptionDTO
+     * @param subscriptionDTO   JSON received from Subscription Service
      */
     void sendEmail(SubscriptionDTO subscriptionDTO);
 

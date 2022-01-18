@@ -18,9 +18,14 @@ public class Receiver {
     @Autowired
     private IEmailService emailService;
 
+    /**
+     * Receives SubscriptionDTO from Kafka server
+     *
+     * @param subscriptionDTO
+     */
     @KafkaListener(topics = "${spring.kafka.topic.sendEmail}")
     public void receive(SubscriptionDTO subscriptionDTO) {
-        LOGGER.info("received subscriptionDTO='{}'", subscriptionDTO);
+        LOGGER.info("Received subscriptionDTO='{}'", subscriptionDTO);
         emailService.sendEmail(subscriptionDTO);
         latch.countDown();
     }
