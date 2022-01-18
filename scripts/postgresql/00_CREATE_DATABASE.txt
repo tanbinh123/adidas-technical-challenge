@@ -1,0 +1,17 @@
+/* CREATE DATABASE */
+CREATE DATABASE adidas;
+
+/* CREATE USER AND SCHEMA */
+CREATE USER adidas_app WITH ENCRYPTED PASSWORD 'adidas_app';
+CREATE SCHEMA adidas;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA adidas TO adidas_app;
+
+/* CREATE TABLE */
+CREATE TABLE adidas.tb_adidas_subscription (
+	id SERIAL PRIMARY KEY,
+	email VARCHAR(30) NOT NULL,
+	name VARCHAR(30),
+	gender VARCHAR(6),
+	birthdate VARCHAR(10) NOT NULL,
+	consent BOOLEAN NOT NULL
+);

@@ -1,0 +1,2 @@
+/* INSERT MOCK DATA TO TEST METHODS */
+INSERT INTO "adidas"."tb_adidas_subscription" ("id", "email", "name", "gender", "birthdate", "consent") VALUES (1, 'test@test.com', 'test', 'female', '20/06/1992', true);
