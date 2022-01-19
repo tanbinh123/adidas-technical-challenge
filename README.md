@@ -12,7 +12,7 @@ Microservices Application for the Adidas Technical Challenge
     * [Installing](#installing-anchor)
     * [Executing program](#executing-anchor)
 * [Remote Files](#remote-anchor)
-* [Libraries](#libraries-anchor)
+* [Libraries Used](#libraries-anchor)
 * [CI/CD Pipeline](#pipeline-anchor)
 * [Api Swagger](#swagger-anchor)
 * [Problems Faced](#problems-anchor)
@@ -139,58 +139,63 @@ Software needed to run this application:
   
   * <b>Public Service /adidas/subscribe</b>
     
-    Using this endpoint will subscribe a user, according to de body JSON that we write:
+     Using this endpoint will subscribe a user, according to de body JSON that we write:
     
-  ![public - subscribe](https://user-images.githubusercontent.com/50203409/150201108-cec385ed-46ff-4f4b-a895-77115252cdd2.png)
+     ![public - subscribe](https://user-images.githubusercontent.com/50203409/150201108-cec385ed-46ff-4f4b-a895-77115252cdd2.png)
   
-    This services will send a message (Kafka topic) with the object to the Kafka Server, then the Subscription Service, which is listening to that topic, will receive the object, then it will save the data into the database and send a message (Kafka topic) that will be delivered to Email Service, and then an email will be send to the user subscribed inbox:
+     This services will send a message (Kafka topic) with the object to the Kafka Server, then the Subscription Service, which is listening to that topic, will receive the object, then it will save the data into the database and send a message (Kafka topic) that will be delivered to Email Service, and then an email will be send to the user subscribed inbox:
     
-    ![database1](https://user-images.githubusercontent.com/50203409/150201614-a55d040c-9541-4878-8708-a69ce26ce804.png)
+     ![database1](https://user-images.githubusercontent.com/50203409/150201614-a55d040c-9541-4878-8708-a69ce26ce804.png)
 
-    ![public-service-email1](https://user-images.githubusercontent.com/50203409/150201621-450daa4a-3c65-4b06-b99e-53deef50213d.png)
+     ![public-service-email1](https://user-images.githubusercontent.com/50203409/150201621-450daa4a-3c65-4b06-b99e-53deef50213d.png)
 
-    ![public-service-email2](https://user-images.githubusercontent.com/50203409/150201634-902f5f4c-7bb5-44d4-8a15-3db6c841b1cb.png)
+     ![public-service-email2](https://user-images.githubusercontent.com/50203409/150201634-902f5f4c-7bb5-44d4-8a15-3db6c841b1cb.png)
 
   * <b>Subscription Service /subscription</b>
 
-    This endpoint does the same as the previous one, but it will call the Subscription Service directly. As this is a secured service (if we don't deactivate it) credentials will be needed as we will see later. Example with security deactivated:
+     This endpoint does the same as the previous one, but it will call the Subscription Service directly. As this is a secured service (if we don't deactivate it)       credentials will be needed as we will see later. Example with security deactivated:
     
-    ![scured-subscribe1](https://user-images.githubusercontent.com/50203409/150202527-344fc36c-3816-44c6-9a65-ea71f94778f6.png)
+     ![scured-subscribe1](https://user-images.githubusercontent.com/50203409/150202527-344fc36c-3816-44c6-9a65-ea71f94778f6.png)
 
-    ![database2](https://user-images.githubusercontent.com/50203409/150202541-113e09a6-3ab4-485f-92c8-041ea395e3b2.png)
+     ![database2](https://user-images.githubusercontent.com/50203409/150202541-113e09a6-3ab4-485f-92c8-041ea395e3b2.png)
 
-    ![secured-service-email1](https://user-images.githubusercontent.com/50203409/150202547-70dc7ea6-7cf5-4c9e-9132-32ce0a2d361e.png)
+     ![secured-service-email1](https://user-images.githubusercontent.com/50203409/150202547-70dc7ea6-7cf5-4c9e-9132-32ce0a2d361e.png)
     
-    ![secured-service-email2](https://user-images.githubusercontent.com/50203409/150202557-7417e93b-81f7-408b-8c88-2a2de4ebd77b.png)
+     ![secured-service-email2](https://user-images.githubusercontent.com/50203409/150202557-7417e93b-81f7-408b-8c88-2a2de4ebd77b.png)
 
   * <b>Subscription Service /unsubscribe/{id}</b> 
     
-    This endpoint cancels an existing subscription, changing the flag content to false and saving it into the database:
+     This endpoint cancels an existing subscription, changing the flag content to false and saving it into the database:
     
-    ![secured-cancelled](https://user-images.githubusercontent.com/50203409/150202948-f7642be9-780f-4e50-86a0-e6417dc47f7d.png)
+     ![secured-cancelled](https://user-images.githubusercontent.com/50203409/150202948-f7642be9-780f-4e50-86a0-e6417dc47f7d.png)
 
-    ![secured-cancelled2](https://user-images.githubusercontent.com/50203409/150202970-ea0def87-7a4a-45f3-a93f-ad3c30bfc092.png)
+     ![secured-cancelled2](https://user-images.githubusercontent.com/50203409/150202970-ea0def87-7a4a-45f3-a93f-ad3c30bfc092.png)
 
   * <b>Subscription Service /subscription/{id}</b>
     
-    This endpoing gets a subcription data by its ID, if it doesn't exists it will return an error:
+     This endpoing gets a subcription data by its ID, if it doesn't exists it will return an error:
    
-    ![secured-getsub](https://user-images.githubusercontent.com/50203409/150203199-0b097953-8617-4df9-89f2-6bafe4a05e7f.png)
+     ![secured-getsub](https://user-images.githubusercontent.com/50203409/150203199-0b097953-8617-4df9-89f2-6bafe4a05e7f.png)
    
    * <b>Subscription Service /subscriptions</b>
     
-    This endpoing gets all subscriptions:
+     This endpoing gets all subscriptions:
    
-    ![secured-getsubs](https://user-images.githubusercontent.com/50203409/150203318-9c29028a-bb28-4c12-a3a6-7318c0624ba7.png)
+     ![secured-getsubs](https://user-images.githubusercontent.com/50203409/150203318-9c29028a-bb28-4c12-a3a6-7318c0624ba7.png)
 
    * <b>JSON body validations</b>
 
-    Validations are made to check that the JSON object is valid for create a new subscription:
+     Validations are made to check that the JSON object is valid for create a new subscription:
     
-    ![validations](https://user-images.githubusercontent.com/50203409/150203458-82c89fe9-29b1-4b6e-b3bd-ad6c6d944984.png)
+     ![validations](https://user-images.githubusercontent.com/50203409/150203458-82c89fe9-29b1-4b6e-b3bd-ad6c6d944984.png)
     
    * <b>Securized Subscription Service</b>
    
+     When security is activated it's necessary to introduce credentials (user and pass are writen in subscription-service config):
+     
+     ![secured-getsub-noauth](https://user-images.githubusercontent.com/50203409/150206124-1a0823eb-01fd-4b98-a595-879b278736bd.png)
+
+     ![secured-getsub-auth](https://user-images.githubusercontent.com/50203409/150206143-18b24309-c20d-41ec-bedf-5931e6542e2f.png)
 
     
 
@@ -200,22 +205,36 @@ Software needed to run this application:
 The configurations of all services are placed in another respository, you can check it our following this link [Config Repository](https://github.com/csantos92/adidas-technical-challenge-config). I've done it this way to have all configurations files centralized, that's why I created the Config-Server, which connects the rest of the services to that repository.
 
 <a name="libraries-anchor"></a>
-## Libraries
+## Frameworks And Libraries
 
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
+For this projects I've used the next frameworks/libraries:
+
+   * Spring Boot
+      * Java framework that permits us create standalone applications with simple configurations. I used this framework because of its potential to create microservice applications.
+   * Spring Boot Web
+      * 
+   * Spring Boot Config Server/Client
+   * Spring Boot JPA
+   * Spring Boot Security
+   * Spring Boot Mail
+   * Netflix Eureka Server/Client
+   * Netflix Zuul
+   * Spring Boot Bootstrap
+   * Spring Kafka
+   * Lombok
+   * Spring Boot Validation
+   * JUnit
+   * PostgreSQL
+
 <a name="pipeline-anchor"></a>
 ## CI/CD Pipeline
 
-
-
+![Adidas-Technical-Challenge](https://user-images.githubusercontent.com/50203409/150207997-ae22be82-c0e0-4d3a-b590-a7f183f30836.jpg)
 
 <a name="swagger-anchor"></a>
 ## Api Swagger
 
-Api Swagger Link
+[Api Swagger Link](https://app.swaggerhub.com/apis/csantos92/adidas-technical-challenge/1.0.0#/)
 
 <a name="problems-anchor"></a>
 ## Problems Faced
