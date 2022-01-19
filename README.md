@@ -274,4 +274,4 @@ The problems I faced are all related because I didn't make it in time to impleme
 <a name="end-anchor"></a>
 ## THE END
 
-Thanks for taking your time on reading all of this!
+Thanks for taking your time in reading all of this!
