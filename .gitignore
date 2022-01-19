@@ -1,0 +1,71 @@
+### Eclipse ###
+
+# Modules
+.project
+.settings
+.classpath
+target
+tmp
+*.tmp
+*.bak
+.loadpath
+.apodo
+.metadata
+/RemoteSystemsTempFiles/
+*.log
+.recommenders
+*~
+.gitmodules
+.attach_*
+src/main/generated
+
+### Intellij ###
+
+# User-specific stuff:
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
+.idea/dbnavigator.xml
+.idea/shelf/
+
+# Sensitive or high-churn files:
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.xml
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+
+# Modules
+/out/
+*.iml
+.idea/modules.xml
+.idea/gradle.xml
+.idea/misc.xml
+*.iml___jb_tmp___
+
+# Project Management
+.idea/**/libraries
+.idea/libraries
+
+### Maven ###
+/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+!maven-wrapper.jar
+
+### VS Code ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.history/

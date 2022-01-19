@@ -1,0 +1,83 @@
+version: '3.9'
+services:
+  config-server:
+    build: ./config-server
+    container_name: config-server
+    image: config-server
+    ports:
+      - 8888:8888
+
+  discovery-service:
+    build: ./discovery-service
+    container_name: discovery-service
+    image: discovery-service
+    ports:
+      - 8761:8761
+    links:
+      - config-server
+    depends_on:
+      - config-server
+
+  api-gateway-service:
+    build: ./api-gateway-service
+    container_name: api-gateway-service
+    image: api-gateway-service
+    ports:
+      - 8080:8080
+    links:
+      - config-server
+      - discovery-service
+    depends_on:
+      - config-server
+      - discovery-service
+      
+  public-service:
+    build: ./public-service
+    container_name: public-service
+    image: public-service
+    ports:
+      - 8091:8091
+    links:
+      - config-server
+      - discovery-service
+      - api-gateway-service
+    depends_on:
+      - config-server
+      - discovery-service
+      - api-gateway-service
+
+  subscription-service:
+    build: ./subscription-service
+    container_name: subscription-service
+    image: subscription-service
+    ports:
+      - 8092:8092
+    links:
+      - config-server
+      - discovery-service
+      - api-gateway-service
+      - public-service
+    depends_on:
+      - config-server
+      - discovery-service
+      - api-gateway-service
+      - public-service
+
+  email-service:
+    build: ./email-service
+    container_name: email-service
+    image: email-service
+    ports:
+      - 8093:8093
+    links:
+      - config-server
+      - discovery-service
+      - api-gateway-service
+      - public-service
+      - subscription-service
+    depends_on:
+      - config-server
+      - discovery-service
+      - api-gateway-service
+      - public-service
+      - subscription-service
