@@ -36,7 +36,7 @@ public class PublicServiceImplTest {
 
         assertNotNull(responseDTO);
         assertEquals(responseDTO.getResponseCode(), HttpStatus.OK);
-        assertEquals(responseDTO.getResponseMessage(), ConstantsUtil.topicSent);
+        assertEquals(responseDTO.getResponseMessage(), ConstantsUtil.SUBSCRIPTION_OK);
     }
 
 }

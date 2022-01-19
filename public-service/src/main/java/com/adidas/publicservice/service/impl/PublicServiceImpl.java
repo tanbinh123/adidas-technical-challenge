@@ -37,10 +37,10 @@ public class PublicServiceImpl implements IPublicService {
 
         try {
             sender.send(SUBSCRIBE_TOPIC, subscriptionDTO);
-            return new ResponseDTO(HttpStatus.OK, ConstantsUtil.topicSent);
+            return new ResponseDTO(HttpStatus.OK, ConstantsUtil.SUBSCRIPTION_OK);
         } catch (Exception e) {
             LOGGER.info("Error in PublicServiceImpl sending subscriptionDTO to Kafka server: '{}'", e.getMessage());
-            return new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, ConstantsUtil.senderError);
+            return new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, ConstantsUtil.SUBSCRIPTION_KO);
         }
 
     }

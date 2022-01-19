@@ -2,8 +2,8 @@ package com.adidas.publicservice.util;
 
 public class ConstantsUtil {
 
-    public static final String topicSent = "The controller has sent the Kafka Topic successfully";
-    public static final String senderError = "The controller couldn't sent the Kafka Topic";
+    public static final String SUBSCRIPTION_OK = "Subscription created successfully, check your email inbox";
+    public static final String SUBSCRIPTION_KO = "There was a problem creating the subscription";
     public static final String OK_MESSAGE = "Ok message";
 
 }
