@@ -138,7 +138,7 @@ Software needed to run this application:
 
   First, you can follow this link to check the API Swagger Documentation: [API Documentation](https://app.swaggerhub.com/apis/csantos92/adidas-technical-challenge/1.0.0#/)
   
-  * <b>Public Service /adidas/subscribe</b>
+  * <b>Public Service localhost:8080/adidas/subscribe</b>
     
      Using this endpoint will subscribe a user, according to the body JSON that we write:
     
@@ -152,7 +152,7 @@ Software needed to run this application:
 
      ![public-service-email2](https://user-images.githubusercontent.com/50203409/150201634-902f5f4c-7bb5-44d4-8a15-3db6c841b1cb.png)
 
-  * <b>Subscription Service /subscription</b>
+  * <b>Subscription Service localhost:8092/subscribe</b>
 
      This endpoint does the same as the previous one, but it will call the Subscription Service directly. As this is a secured service (if we don't deactivate it)       credentials will be needed as we will see later. Example with security deactivated:
     
@@ -164,7 +164,7 @@ Software needed to run this application:
     
      ![secured-service-email2](https://user-images.githubusercontent.com/50203409/150202557-7417e93b-81f7-408b-8c88-2a2de4ebd77b.png)
 
-  * <b>Subscription Service /unsubscribe/{id}</b> 
+  * <b>Subscription Service localhost:8092/unsubscribe/{id}</b> 
     
      This endpoint cancels an existing subscription, changing the flag content to false and saving it into the database:
     
@@ -172,13 +172,13 @@ Software needed to run this application:
 
      ![secured-cancelled2](https://user-images.githubusercontent.com/50203409/150202970-ea0def87-7a4a-45f3-a93f-ad3c30bfc092.png)
 
-  * <b>Subscription Service /subscription/{id}</b>
+  * <b>Subscription Service localhost:8092/subscription/{id}</b>
     
      This endpoint gets a subcription data by its ID, if it doesn't exist it will return an error:
    
      ![secured-getsub](https://user-images.githubusercontent.com/50203409/150203199-0b097953-8617-4df9-89f2-6bafe4a05e7f.png)
    
-   * <b>Subscription Service /subscriptions</b>
+   * <b>Subscription Service localhost:8092/subscriptions</b>
     
      This endpoint gets all subscriptions:
    
